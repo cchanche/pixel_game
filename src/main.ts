@@ -66,11 +66,10 @@ export const handler = (async () => {
 
     // Get or create output dir
     const outDir = path.join(IMG_FOLDER_PATH, fileNameParsed.name);
-    if (fs.existsSync(outDir)) {
-      logger.log('  Destination already exists. Emptying...');
-      fs.rmSync(outDir, { recursive: true });
-      fs.mkdirSync(outDir);
-    } else {
+    if (fs.existsSync(outDir) && fs.readdirSync(outDir).length !== 0) {
+      logger.log('  Destination already exists. skipping...');
+      continue;
+    } else if (!fs.existsSync(outDir)) {
       fs.mkdirSync(outDir);
       logger.log('  Created folder ' + outDir);
     }
