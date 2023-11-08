@@ -11,9 +11,15 @@ export const handler = (async () => {
   const IMG_FOLDER = 'images';
   const IMG_FOLDER_PATH = path.join(IMG_FOLDER);
 
-  const NUMER_OF_RESIZES = 5;
-  const MAX_DIMENSION = 150;
-  const MIN_DIMENSION = 30;
+  const NUMER_OF_RESIZES = process.env.NUMER_OF_RESIZES
+    ? parseInt(process.env.NUMER_OF_RESIZES)
+    : 5;
+  const MAX_DIMENSION = process.env.MAX_DIMENSION
+    ? parseInt(process.env.MAX_DIMENSION)
+    : 150;
+  const MIN_DIMENSION = process.env.MIN_DIMENSION
+    ? parseInt(process.env.MIN_DIMENSION)
+    : 30;
 
   // Create height scale
   const dimensionsArray = [];
