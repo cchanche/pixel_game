@@ -11,14 +11,22 @@ export const handler = (async () => {
   const IMG_FOLDER = 'images';
   const IMG_FOLDER_PATH = path.join(IMG_FOLDER);
 
-  const envArr = process.env.RESIZE_ARRAY?.toString()
-    .split(',')
-    .map((e) => e.trim())
-    .filter((e) => !!e)
-    .map((e) => parseInt(e));
-  const RESIZE_ARRAY = envArr?.length ? envArr : [0, 5, 10, 15, 20];
+  const NUMER_OF_RESIZES = 5;
+  const MAX_HEIGHT = 150;
+  const MIN_HEIGHT = 35;
 
-  logger.log(`Using resize-array : ${RESIZE_ARRAY}`);
+  // Create height scale
+  const heightsArray = [];
+  for (let i = 0; i < NUMER_OF_RESIZES; i++) {
+    heightsArray.push(
+      Math.floor(
+        MAX_HEIGHT *
+          Math.pow(MIN_HEIGHT / MAX_HEIGHT, i / (NUMER_OF_RESIZES - 1)),
+      ),
+    );
+  }
+
+  logger.log(`Height scale is : ${heightsArray}`);
 
   if (!fs.existsSync(IMG_FOLDER_PATH)) {
     logger.log('Destination directory does not exists. Creating...');
@@ -67,25 +75,33 @@ export const handler = (async () => {
       logger.log('  Created folder ' + outDir);
     }
 
-    // Read image
-    const image = await Jimp.read(path.join(IMG_FOLDER_PATH, dirent.name));
+    for (const resizeHeight of heightsArray) {
+      // Read image
+      const image = await Jimp.read(path.join(IMG_FOLDER_PATH, dirent.name));
+      const IMG_HEIGHT = image.getWidth();
 
-    const W = image.getWidth();
+      // Resize the image to custom height and auto width.
+      image.resize(Jimp.AUTO, resizeHeight, Jimp.RESIZE_NEAREST_NEIGHBOR);
 
-    for (const size of RESIZE_ARRAY) {
-      // Resize the image to width 150 and auto height.
-      size &&
-        (await image.resize(W / size, Jimp.AUTO, Jimp.RESIZE_NEAREST_NEIGHBOR));
-      await image.resize(W, Jimp.AUTO, Jimp.RESIZE_NEAREST_NEIGHBOR);
+      // Reset image to previus resolution
+      image.resize(Jimp.AUTO, IMG_HEIGHT, Jimp.RESIZE_NEAREST_NEIGHBOR);
 
       const writeFilePath = path.join(
         outDir,
-        `${name}_${(size * 100).toString()}${ext}`,
+        `${name}_${(
+          heightsArray.findIndex((r) => r === resizeHeight) + 1
+        ).toString()}${ext}`,
       );
 
       // Save and overwrite the image
       await image.writeAsync(writeFilePath);
       logger.log(`  Wrote file ${writeFilePath}`);
     }
+
+    // Copy original
+    fs.copyFileSync(
+      path.join(IMG_FOLDER_PATH, dirent.name),
+      path.join(outDir, `${name}_0${ext}`),
+    );
   }
 })();
