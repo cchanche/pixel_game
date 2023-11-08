@@ -47,6 +47,7 @@ export const handler = (async () => {
     if (
       ext !== '.bmp' &&
       ext !== '.gif' &&
+      ext !== '.jpg' &&
       ext !== '.jpeg' &&
       ext !== '.png' &&
       ext !== '.tiff'
