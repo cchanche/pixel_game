@@ -81,7 +81,7 @@ export const handler = (async () => {
       const IMG_HEIGHT = image.getHeight();
       const IMG_WIDTH = image.getWidth();
 
-      if (IMG_HEIGHT <= IMG_WIDTH) {
+      if (IMG_HEIGHT > IMG_WIDTH) {
         // Resize the image to custom height and auto width.
         image.resize(Jimp.AUTO, resizeDimension, Jimp.RESIZE_NEAREST_NEIGHBOR);
 
