@@ -12,21 +12,21 @@ export const handler = (async () => {
   const IMG_FOLDER_PATH = path.join(IMG_FOLDER);
 
   const NUMER_OF_RESIZES = 5;
-  const MAX_HEIGHT = 150;
-  const MIN_HEIGHT = 35;
+  const MAX_DIMENSION = 150;
+  const MIN_DIMENSION = 35;
 
   // Create height scale
-  const heightsArray = [];
+  const dimensionsArray = [];
   for (let i = 0; i < NUMER_OF_RESIZES; i++) {
-    heightsArray.push(
+    dimensionsArray.push(
       Math.floor(
-        MAX_HEIGHT *
-          Math.pow(MIN_HEIGHT / MAX_HEIGHT, i / (NUMER_OF_RESIZES - 1)),
+        MAX_DIMENSION *
+          Math.pow(MIN_DIMENSION / MAX_DIMENSION, i / (NUMER_OF_RESIZES - 1)),
       ),
     );
   }
 
-  logger.log(`Height scale is : ${heightsArray}`);
+  logger.log(`Dimension scale is : ${dimensionsArray}`);
 
   if (!fs.existsSync(IMG_FOLDER_PATH)) {
     logger.log('Destination directory does not exists. Creating...');
@@ -75,21 +75,30 @@ export const handler = (async () => {
       logger.log('  Created folder ' + outDir);
     }
 
-    for (const resizeHeight of heightsArray) {
+    for (const resizeDimension of dimensionsArray) {
       // Read image
       const image = await Jimp.read(path.join(IMG_FOLDER_PATH, dirent.name));
-      const IMG_HEIGHT = image.getWidth();
+      const IMG_HEIGHT = image.getHeight();
+      const IMG_WIDTH = image.getWidth();
 
-      // Resize the image to custom height and auto width.
-      image.resize(Jimp.AUTO, resizeHeight, Jimp.RESIZE_NEAREST_NEIGHBOR);
+      if (IMG_HEIGHT <= IMG_WIDTH) {
+        // Resize the image to custom height and auto width.
+        image.resize(Jimp.AUTO, resizeDimension, Jimp.RESIZE_NEAREST_NEIGHBOR);
 
-      // Reset image to previus resolution
-      image.resize(Jimp.AUTO, IMG_HEIGHT, Jimp.RESIZE_NEAREST_NEIGHBOR);
+        // Reset image to previus resolution
+        image.resize(Jimp.AUTO, IMG_HEIGHT, Jimp.RESIZE_NEAREST_NEIGHBOR);
+      } else {
+        // Resize the image to custom height and auto width.
+        image.resize(resizeDimension, Jimp.AUTO, Jimp.RESIZE_NEAREST_NEIGHBOR);
+
+        // Reset image to previus resolution
+        image.resize(IMG_WIDTH, Jimp.AUTO, Jimp.RESIZE_NEAREST_NEIGHBOR);
+      }
 
       const writeFilePath = path.join(
         outDir,
         `${name}_${(
-          heightsArray.findIndex((r) => r === resizeHeight) + 1
+          dimensionsArray.findIndex((r) => r === resizeDimension) + 1
         ).toString()}${ext}`,
       );
 
