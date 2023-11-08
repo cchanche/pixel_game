@@ -7,5 +7,5 @@ export default {
     format: 'cjs',
   },
   plugins: [typescript()],
-  external: ['jimp', 'os', 'argparse', 'path', 'child_process', 'fs'],
+  external: ['jimp', 'os', 'argparse', 'path', 'child_process', 'fs', 'dotenv'],
 };
