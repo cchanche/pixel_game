@@ -22,7 +22,7 @@ export const handler = (async () => {
     : 30;
 
   // Create height scale
-  const dimensionsArray = [];
+  let dimensionsArray = [];
   for (let i = 0; i < NUMER_OF_RESIZES; i++) {
     dimensionsArray.push(
       Math.floor(
@@ -31,6 +31,7 @@ export const handler = (async () => {
       ),
     );
   }
+  dimensionsArray = dimensionsArray.reverse();
 
   logger.log(`Dimension scale is : ${dimensionsArray}`);
 
@@ -72,7 +73,11 @@ export const handler = (async () => {
 
     // Get or create output dir
     const outDir = path.join(IMG_FOLDER_PATH, fileNameParsed.name);
-    if (fs.existsSync(outDir) && fs.readdirSync(outDir).length !== 0) {
+    if (
+      fs.existsSync(outDir) &&
+      fs.readdirSync(outDir).filter((dirent) => !dirent.startsWith('.'))
+        .length !== 0
+    ) {
       logger.log('  Destination already exists. skipping...');
       continue;
     } else if (!fs.existsSync(outDir)) {
@@ -115,7 +120,7 @@ export const handler = (async () => {
     // Copy original
     fs.copyFileSync(
       path.join(IMG_FOLDER_PATH, dirent.name),
-      path.join(outDir, `${name}_0${ext}`),
+      path.join(outDir, `${name}_6${ext}`),
     );
   }
 })();
