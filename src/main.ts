@@ -13,7 +13,7 @@ export const handler = (async () => {
 
   const NUMER_OF_RESIZES = 5;
   const MAX_DIMENSION = 150;
-  const MIN_DIMENSION = 35;
+  const MIN_DIMENSION = 30;
 
   // Create height scale
   const dimensionsArray = [];
