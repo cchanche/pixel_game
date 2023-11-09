@@ -2,7 +2,7 @@
   "name": "pixel_game",
   "author": "Clément Chanchevrier",
   "version": "0.0.1",
-  "type": "module",
+  "type": "commonjs",
   "main": "dist/index.cjs",
   "engines": {
     "node": "^18",
