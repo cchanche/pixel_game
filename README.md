@@ -1,6 +1,6 @@
 # Pixel game
 
-Given an image library, generates _pixelated_ versions of each image, so that one would have to guess it's content despite the poor image quality. Different quality levels are generated so that multiple guesses can be given on different renders.
+Given an image library, generates _pixelated_ versions of each image, so that one would have to guess its content despite the poor image quality. Different quality levels are generated so that multiple guesses can be given on different renders.
 
 ## Installation
 
