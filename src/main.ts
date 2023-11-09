@@ -120,7 +120,7 @@ export const handler = (async () => {
     // Copy original
     fs.copyFileSync(
       path.join(IMG_FOLDER_PATH, dirent.name),
-      path.join(outDir, `${name}_6${ext}`),
+      path.join(outDir, `${name}_${NUMER_OF_RESIZES + 1}${ext}`),
     );
   }
 })();
