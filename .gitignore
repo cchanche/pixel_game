@@ -32,5 +32,4 @@ docker-compose.local.yml
 scripts/**/assets
 **/*.*sql
 
-dist
 images
