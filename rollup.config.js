@@ -7,8 +7,8 @@ import json from '@rollup/plugin-json';
 export default {
   input: 'src/main.ts',
   output: {
-    file: 'dist/index.cjs',
-    format: 'cjs',
+    file: 'dist/index.js',
+    format: 'esm',
   },
   onwarn: (warning, defaultHandler) => {
     if (warning.code !== 'EVAL' && warning.code !== 'CIRCULAR_DEPENDENCY') {
