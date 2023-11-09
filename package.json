@@ -3,14 +3,14 @@
   "author": "Clément Chanchevrier",
   "version": "0.0.1",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "engines": {
     "node": "^18",
     "pnpm": "^8.6.11"
   },
   "scripts": {
     "dev": "pnpm build && pnpm start",
-    "start": "node ./dist/index.js",
+    "start": "node ./dist/index.cjs",
     "build": "rollup --config",
     "format:write": "prettier --write \"src/**/*.ts\"",
     "lint:fix": "eslint \"src/**/*.ts\" --fix",
