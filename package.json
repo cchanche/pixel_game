@@ -1,5 +1,6 @@
 {
   "name": "pixel_game",
+  "author": "Clément Chanchevrier",
   "version": "0.0.1",
   "type": "module",
   "main": "dist/index.js",
@@ -17,7 +18,6 @@
     "lint": "eslint \"src/**/*.ts\" --max-warnings 0",
     "tsc:check": "tsc --noEmit"
   },
-  "author": "",
   "license": "ISC",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
