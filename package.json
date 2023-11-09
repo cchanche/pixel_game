@@ -2,6 +2,10 @@
   "name": "pixel_game",
   "version": "0.0.1",
   "type": "module",
+  "engines": {
+    "node": "18.16.1",
+    "pnpm": "^8.6.11"
+  },
   "scripts": {
     "build": "pnpm build_package && node ./dist/index.cjs",
     "build_package": "rollup --config",
