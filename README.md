@@ -11,8 +11,10 @@ Only NodeJs version 18 is required. Preferably install through [`nvm`](https://n
 Copy your image library inside an `images` folder, and run :
 
 ```bash
-$ pnpm start
+$ npm start
 ```
+
+or (using node) `$ node .` or even `$ node dist/index.cjs`
 
 For each image, a folder will be created containing the image itself, and mulitple downgraded versions.
 
